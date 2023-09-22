@@ -32,18 +32,14 @@ module.exports = {
                     { name: 'harvest', value: 'harvest' },
                     { name: 'dio', value: 'dio' },
                     { name: 'crepe', value: 'crepe' },
-                    { name: 'crepe-tiny', value: 'crepe-tiny' },
                     { name: 'mangio-crepe', value: 'mangio-crepe' },
-                    { name: 'mangio-crepe-tiny', value: 'mangio-crepe-tiny' },
                     { name: 'rmvpe', value: 'rmvpe' },
-                    { name: 'rmvpe_onnx', value: 'rmvpe_onnx' },
-                    { name: 'rmvpe+', value: 'rmvpe+' },
                 ))
-        .addStringOption(option =>
+        .addIntegerOption(option =>
             option.setName('epochs')
                 .setDescription('The number of epochs of your model')
                 .setRequired(true)
-                .setMaxLength(10))
+                .setMaxValue(100000))
         .addStringOption(option =>
             option.setName('link')
                 .setDescription('The link of your model (Huggingface only!)')
@@ -69,7 +65,7 @@ module.exports = {
         const name = interaction.options.getString('modelname');
 		const rvc = interaction.options.getString('rvc');
         const extraction = interaction.options.getString('extraction');
-		const epochs = interaction.options.getString('epochs');
+		const epochs = interaction.options.getInteger('epochs');
 		const link = interaction.options.getString('link');
         const note = interaction.options.getString('note') ?? 'N/A';
         const userid = interaction.user.id;
@@ -81,14 +77,11 @@ module.exports = {
         }
 
         const namecheck = name.toLowerCase();
-        const epochscheck = epochs.toLowerCase();
         const linkcheck = link.toLowerCase();
         const notecheck = note.toLowerCase();
 
         for (const word of bannedwords) {
             if (namecheck.includes(word)) {
-                return interaction.reply({content:`Your submission contains a banned word. Unable to proceed.`, ephemeral: true });
-            } else if (epochscheck.includes(word)) {
                 return interaction.reply({content:`Your submission contains a banned word. Unable to proceed.`, ephemeral: true });
             } else if (linkcheck.includes(word)) {
                 return interaction.reply({content:`Your submission contains a banned word. Unable to proceed.`, ephemeral: true });
@@ -106,7 +99,7 @@ module.exports = {
         } else if (link.includes("https://drive.google.com/") || link.includes("https://mega.nz/")) {
             return interaction.reply({content:`Looks like you entered a Google Drive / Mega link. Please note that all models are required to have a Huggingface link. Follow this tutorial to make sure you get the correct Huggingface link: <https://rentry.org/fdg_guide>.`, ephemeral: true });
         } else {
-            return interaction.reply({content:`Invalid link. Please note that all models are required to have a Huggingface link. Follow this tutorial to make sure you get the correct Huggingface link: <https://rentry.org/fdg_guide>.`, ephemeral: true });
+            return interaction.reply({content:"Invalid link. Please note that all models are required to have a Huggingface link. Follow this tutorial to make sure you get the correct Huggingface link: <https://rentry.org/fdg_guide>.\nIf you're trying to submit a model trained with Kits.ai, please use the `/submitkits` command instead.", ephemeral: true });
         }
 
         const imageType = image.contentType.toLowerCase();
