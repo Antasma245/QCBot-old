@@ -31,8 +31,8 @@ module.exports = {
         const dbdslink = tag.get('dbdslink')
 
         if (length==1) {
-            return interaction.reply(`${length} submission is awaiting to be reviewed.\n**ID:** ${dbsubidlist[0]}\n**Link:** ${dbdslink}`);
+            return interaction.reply({content:`${length} submission is awaiting to be reviewed.\n**ID:** ${dbsubidlist[0]}\n**Link:** ${dbdslink}`, ephemeral: true });
         } else {
-            return interaction.reply(`${length} submissions are awaiting to be reviewed. Here's the least recent one:\n**ID:** ${dbsubidlist[0]}\n**Link:** ${dbdslink}`);
+            return interaction.reply({content:`${length} submissions are awaiting to be reviewed. Here's the least recent one:\n**ID:** ${dbsubidlist[0]}\n**Link:** ${dbdslink}`, ephemeral: true });
         }}
     };
