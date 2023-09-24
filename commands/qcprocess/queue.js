@@ -27,7 +27,7 @@ module.exports = {
         const preindex = dbsubidlist.indexOf(inputsubid);
         const index = preindex+1
 
-        await interaction.reply(`<@${interaction.user.id}> Your submission (ID: ${inputsubid}) is number ${index} out of ${length} in queue. It'll be reviewed shortly.`);
+        await interaction.reply({content:`Your submission (ID: ${inputsubid}) is number ${index} out of ${length} in queue. It'll be reviewed shortly.`, ephemeral: true });
 
         }
     };
