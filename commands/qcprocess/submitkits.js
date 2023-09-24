@@ -73,6 +73,16 @@ module.exports = {
             return interaction.reply({content:`You already have the Model Maker role. You can post your models in the https://discord.com/channels/${interaction.guild.id}/${modelsChannelId} channel.`, ephemeral: true });
         }
 
+        let dbuseridlist = []
+        const dbuseridraw = await Tags1.findAll({ attributes: ['dbuserid'] });
+        dbuseridlist.push(...dbuseridraw.map((tag) => tag.dbuserid));
+
+        if (dbuseridlist.includes(userid)) {
+            const rowfromusertag = await Tags1.findOne({ where: { dbuserid: userid } });
+            const idfromusertag = rowfromusertag.get('dbsubid');
+            return interaction.reply({content:`There's already a submission from you in the queue (ID: ${idfromusertag}). Please note that you only need to submit your model once.\nIf you want to, you can check your submission's number in queue using \`/queue\` or cancel it using \`/cancel\`.`, ephemeral: true });
+        }
+
         const namecheck = name.toLowerCase();
         const linkcheck = link.toLowerCase();
         const notecheck = note.toLowerCase();
@@ -99,11 +109,11 @@ module.exports = {
         const imageSize = demo.size
         const demoSize = image.size
 
-        if (!imageType.includes("png") && !imageType.includes("jpg") && !imageType.includes("jpeg") && !imageType.includes("gif") && !imageType.includes("webp")) {
+        if (!imageType.includes("png") && !imageType.includes("jpeg") && !imageType.includes("gif") && !imageType.includes("webp")) {
             return interaction.reply({content:`Invalid file type for "image". Please attach a file with a supported extension. Supported file types: png, jpg, jpeg, gif, webp.`, ephemeral: true });
         }
-        if (!demoType.includes("wav") && !demoType.includes("flac") && !demoType.includes("mp3") && !demoType.includes("m4a")) {
-            return interaction.reply({content:`Invalid file type for "demo". Please attach a file with a supported extension. Supported file types: wav, flac, mp3, m4a.`, ephemeral: true });
+        if (!demoType.includes("wav") && !demoType.includes("flac") && !demoType.includes("mpeg") && !demoType.includes("mp4") && !demoType.includes("ogg")) {
+            return interaction.reply({content:`Invalid file type for "demo". Please attach a file with a supported extension. Supported file types: wav, flac, mp3, m4a, ogg.`, ephemeral: true });
         }
 
         if (imageSize>=250000000) {
