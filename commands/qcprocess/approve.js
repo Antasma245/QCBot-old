@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { Tags1, Tags2 } = require('../../sequelcode');
 const env = require('dotenv').config();
-const guildId = process.env.guildId;
 const qcRoleId = process.env.qcRoleId;
 const modelRoleId = process.env.modelRoleId;
 const modelsChannelId = process.env.modelsChannelId;
@@ -35,8 +34,8 @@ module.exports = {
             return interaction.reply({content:"You do not have permission to approve submissions. If you want to become a Model QC, you can apply for the role using the `/jointeam` command of the AI HUB bot.", ephemeral: true });
         }
 
-        const member = interaction.guild.members.cache.get(subuserid);
-        const role = interaction.guild.roles.cache.get(modelRoleId);
+        const member = await interaction.guild.members.cache.get(subuserid);
+        const role = await interaction.guild.roles.cache.get(modelRoleId);
         await member.roles.add(role)
 
         await Tags1.destroy({ where: { dbsubid: inputsubid } });
