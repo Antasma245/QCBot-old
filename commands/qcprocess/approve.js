@@ -21,7 +21,7 @@ module.exports = {
                 .setMaxLength(500)),
 	async execute(interaction) {
         const inputsubid = interaction.options.getInteger('id');
-        const comment = interaction.options.getString('reason') ?? 'N/A';
+        const comment = interaction.options.getString('comment') ?? 'N/A';
 
         const tag = await Tags1.findOne({ where: { dbsubid: inputsubid } });
 
@@ -34,6 +34,10 @@ module.exports = {
         if (!interaction.member.roles.cache.has(qcRoleId)) {
             return interaction.reply({content:"You do not have permission to approve submissions. If you want to become a Model QC, you can apply for the role using the `/jointeam` command of the AI HUB bot.", ephemeral: true });
         }
+
+        const member = interaction.guild.members.cache.get(subuserid);
+        const role = interaction.guild.roles.cache.get(modelRoleId);
+        await member.roles.add(role)
 
         await Tags1.destroy({ where: { dbsubid: inputsubid } });
 
@@ -51,10 +55,6 @@ module.exports = {
             const currentcount = tag2.get('dbcount');
             await Tags2.update({ dbcount: currentcount+1, dbqcname: membername }, { where: { dbqcid: interaction.user.id } });
         }
-
-        const member = interaction.guild.members.cache.get(subuserid);
-        const role = interaction.guild.roles.cache.get(modelRoleId);
-        member.roles.add(role)
 
         return interaction.reply(`<@${subuserid}> Your submission (ID: ${inputsubid}) has been approved by **${membername}**.\nComment: *${comment}*\nYou've been granted the Model Maker role and can now post in the https://discord.com/channels/${interaction.guild.id}/${modelsChannelId} channel.`);
 
