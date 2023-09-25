@@ -24,7 +24,7 @@ module.exports = {
         const length = dbsubidlist.length
         
         if (length==0) {
-            return interaction.reply(`No new submissions to check. Queue is empty.`);
+            return interaction.reply({content:`No new submissions to check. Queue is empty.`, ephemeral: true });
         }
 
         const tag = await Tags1.findOne({ where: { dbsubid: dbsubidlist[0] } });
