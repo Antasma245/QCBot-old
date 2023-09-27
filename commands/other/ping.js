@@ -1,10 +1,10 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription("Check the bot's ping"),
 	async execute(interaction) {
-		await interaction.reply('Dunno :3');
+		await interaction.reply({ embeds: [new EmbedBuilder().setColor(`ffc0cb`).setDescription(`## Dunno :3`)] });
 	},
 };
