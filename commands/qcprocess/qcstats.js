@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { Tags2 } = require('../../sequelcode');
 const env = require('dotenv').config();
 const modRoleId = process.env.modRoleId;
@@ -15,9 +15,9 @@ module.exports = {
         }
 
         const qclistraw = await Tags2.findAll({ attributes: ['dbqcid', 'dbcount', 'dbqcname'], order: [['dbcount', 'DESC']] });
-        const qclist = qclistraw.map(t => `${t.dbqcname} (${t.dbqcid}): ${t.dbcount}`).join('\n') || 'Database is empty.';
+        const qclist = qclistraw.map(t => `**${t.dbqcname}** (${t.dbqcid}): **${t.dbcount}**`).join('\n') || 'Database is empty.';
 
-        await interaction.reply({content:`${qclist}`, ephemeral: true });
+        await interaction.reply({embeds: [new EmbedBuilder().setColor(`e74c3c`).setDescription(`${qclist}`)], ephemeral: true });
 
         }
     };
