@@ -124,10 +124,10 @@ module.exports = {
             return interaction.reply({content:`Invalid file type for "demo". Please attach a file with a supported extension. Supported file types: wav, flac, mp3, m4a, ogg.`, ephemeral: true });
         }
 
-        if (imageSize>=250000000) {
+        if (imageSize>=25000000) {
             return interaction.reply({content:`Invalid file size for "image". Please attach a file that's under 25 MB.`, ephemeral: true });
         }
-        if (demoSize>=250000000) {
+        if (demoSize>=25000000) {
             return interaction.reply({content:`Invalid file size for "demo". Please attach a file that's under 25 MB.`, ephemeral: true });
         }
 
