@@ -12,11 +12,7 @@ module.exports = {
             return interaction.reply({content:"You do not have permission to review submissions. If you want to become a Model QC, you can apply for the role using the `/jointeam` command of the AI HUB bot.", ephemeral: true });
         }
         
-        let dbsubidlast = []
         let dbsubidlist = []
-
-        const dbsubidrawlast = await Tags1.findAll({ attributes: ['dbsubid'], order: [['createdAt', 'ASC']], limit: 1 });
-        dbsubidlast.push(...dbsubidrawlast.map((tag) => tag.dbsubid));
 
         const dbsubidrawlist = await Tags1.findAll({ attributes: ['dbsubid'], order: [['createdAt', 'ASC']] });
         dbsubidlist.push(...dbsubidrawlist.map((tag) => tag.dbsubid));
