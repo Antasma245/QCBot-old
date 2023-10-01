@@ -34,9 +34,30 @@ module.exports = {
             return interaction.reply({content:"You do not have permission to approve submissions. If you want to become a Model QC, you can apply for the role using the `/jointeam` command of the AI HUB bot.", ephemeral: true });
         }
 
-        const member = await interaction.guild.members.cache.get(subuserid);
-        const role = await interaction.guild.roles.cache.get(modelRoleId);
-        await member.roles.add(role)
+        let member = await interaction.guild.members.fetch(subuserid);
+        let role = await interaction.guild.roles.fetch(modelRoleId);
+        let countmember = 0
+        let countrole = 0
+
+        while (!member) {
+            if (countmember <=4) {
+                member = await interaction.guild.members.fetch(subuserid),
+                countmember = countmember+1
+            } else {
+                return interaction.reply({content:"An error occured while using `/approve`. Please try again.", ephemeral: true });
+            }
+        }
+
+        while (!role) {
+            if (countrole <=4) {
+                role = await interaction.guild.roles.fetch(modelRoleId),
+                countrole = countrole+1
+            } else {
+                return interaction.reply({content:"An error occured while using `/approve`. Please try again.", ephemeral: true });
+            }
+        }
+
+        await member.roles.add(role);
 
         await Tags1.destroy({ where: { dbsubid: inputsubid } });
 
