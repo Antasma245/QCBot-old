@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { Tags1 } = require('../../sequelcode');
+const { Tags1, Tags2 } = require('../../sequelcode');
 const env = require('dotenv').config();
 const qcRoleId = process.env.qcRoleId;
 
@@ -29,6 +29,24 @@ module.exports = {
         }
     
         await Tags1.destroy({ where: { dbsubid: inputsubid } });
+
+        if (interaction.member.roles.cache.has(qcRoleId)) {
+            const tag2 = await Tags2.findOne({ where: { dbqcid: interaction.user.id } });
+
+            const membername = interaction.member.nickname ?? interaction.member.displayName
+    
+            if (!tag2) {
+                await Tags2.create({
+                    dbqcid: interaction.user.id,
+                    dbcount: 1,
+                    dbqcname: membername,
+                });
+            } else {
+                const currentcount = tag2.get('dbcount');
+                await Tags2.update({ dbcount: currentcount+1, dbqcname: membername }, { where: { dbqcid: interaction.user.id } });
+            }
+        }
+        
         return interaction.reply(`<@${interaction.user.id}> Your submission (ID: ${inputsubid}) has been successfully removed from queue.`);
 
         }
