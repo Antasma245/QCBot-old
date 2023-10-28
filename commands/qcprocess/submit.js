@@ -109,7 +109,7 @@ module.exports = {
         } else if (link.includes("https://drive.google.com/") || link.includes("https://mega.nz/")) {
             return interaction.reply({content:`Looks like you entered a Google Drive / Mega link. Please note that all models are required to have a Huggingface link. Follow this tutorial to make sure you get the correct Huggingface link: <https://rentry.org/fdg_guide_new>.`, ephemeral: true });
         } else {
-            return interaction.reply({content:"Invalid link. Please note that all models are required to have a Huggingface link. Follow this tutorial to make sure you get the correct Huggingface link: <https://rentry.org/fdg_guide_new>.\nIf you're trying to submit a model trained with Kits.ai, please use the `/submitkits` command instead.", ephemeral: true });
+            return interaction.reply({content:"Invalid link. Please note that all models are required to have a Huggingface link. Follow this tutorial to make sure you get the correct Huggingface link: <https://rentry.org/fdg_guide_new>.\nPlease note that we do not accept Kits.ai models anymore.", ephemeral: true });
         }
 
         const imageType = image.contentType.toLowerCase();
