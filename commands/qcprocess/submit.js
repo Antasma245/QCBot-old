@@ -114,8 +114,8 @@ module.exports = {
 
         const imageType = image.contentType.toLowerCase();
         const demoType = demo.contentType.toLowerCase();
-        const imageSize = demo.size
-        const demoSize = image.size
+        const imageSize = image.size
+        const demoSize = demo.size
 
         if (!imageType.includes("png") && !imageType.includes("jpeg") && !imageType.includes("gif") && !imageType.includes("webp")) {
             return interaction.reply({content:`Invalid file type for "image". Please attach a file with a supported extension. Supported file types: png, jpg, jpeg, gif, webp.`, ephemeral: true });
