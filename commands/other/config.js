@@ -75,6 +75,11 @@ module.exports = {
 			}
 		}
 
+		if (activity && !presence) {
+			await interaction.editReply(`Unable to execute action. Activity must be used with presence.\nWaiting for all actions to be executed (${current}/${total})`);
+			await wait(4000);
+		}
+
 		if (presence) {
 			if (presence == 'reset') {
 				await client.user.setPresence({});
